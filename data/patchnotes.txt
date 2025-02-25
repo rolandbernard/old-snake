@@ -1,0 +1,50 @@
+0.1.1 : 
+	-rebuild key input engine
+	 ->fixed lost keypresses in multiplayer
+	 ->improves performance
+	-balanced powerups
+	 ->less powerfull slowness
+	-implementet powerup colorcoding
+	 ->Green: slowness
+	 ->blue: invincibility
+
+0.1.2 :
+	-options get saved to file
+	 ->"config.rcn"
+	-implemented "Exit" button
+	
+0.1.3 :
+	-set maximal refresh rate from 60hz to 480hz
+	 ->improved performance
+	-fixed saving error
+	-impoved Ai
+
+0.1.4 :
+	-balanced powerups
+	 ->speed more manageable
+	 ->invincibility gives speed
+	-fixed crash caused to division by zero
+	-fixed crash on 64-bit version
+	-corrected embarrassing spelling mistakes
+
+0.1.5 :
+	-improved key input
+	 ->fixed still acuring data lost
+	 ->start game also with enter key
+	-fixed crash due to missig config file
+	-colorcoded speed: Red
+	-improved Ai
+	 ->now detects invincibel player inside
+	 ->now detects powerups
+	 ->now detects fliping walls
+	-overwriten button class
+	-added link as placeholder to the logo
+	-fixed icon error on low res displays
+	-improved slider class 
+	-deleted useless files
+	-improved high and low res support
+
+0.1.6 :
+	-improved key input
+	 ->fixed still acuring data lost on arrow keys
+	-balanced powerup probability

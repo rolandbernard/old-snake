@@ -1,4 +1,4 @@
-String version = "0.1.5";
+String version = "0.1.6";
 
 int pageAt = -1;
 int appleAmount = 3;
@@ -57,16 +57,15 @@ String line;
 
 void settings()
 {
-  size(800,600,P2D);
-  PJOGL.setIcon("icon.png");
+  orientation(LANDSCAPE);
+  size(displayWidth,displayHeight);
 }
 
 void setup()
 {
   //fullScreen();
   frameRate(1000);
-  surface.setResizable(true);
-  
+  background(0);
   
   try 
   {
@@ -80,7 +79,7 @@ void setup()
     line = null;
   }
   if (line == null) {
-    writeOption = createWriter("config.rcn"); 
+    writeOption = createWriter(sketchPath("")+"config.rcn"); 
     writeOption.println(appleAmount + "/" + int(powerUp) + "/" + int(wales) + "/" + colore[0][0] + "/" + colore[0][1] + "/" + colore[0][2] + "/" + colore[1][0] + "/" + colore[1][1]+ "/" + colore[1][2] + "/" + colore[2][0] + "/" + colore[2][1] + "/" + colore[2][2] + "/" + colore[3][0] + "/" + colore[3][1] + "/" + colore[3][2] + "/" + backR + "/" + backG + "/" + backB + "/" + startLengh + "/" + tilesize + "/" + int(fullscreen));
     writeOption.flush();
     writeOption.close();
@@ -112,8 +111,6 @@ void setup()
     fullscreen = boolean( int(pieces[20]) );
   }
   
-  //PImage icon = loadImage("icon.png");
-  //surface.setIcon(icon);
   
   background.startGame(10,false,false,0,4,colore,5,5);
   background.setColor(210,210,210,0,0,0);
@@ -166,16 +163,7 @@ void setup()
 
 void draw()
 {
-  if (width < 400) {
-    surface.setSize(400, height);
-  }
-  if (height < 300) {
-    surface.setSize(width, 300);
-  }
-  if(!hand)
-  {
-    cursor(ARROW);
-  }
+  
   hand = false;
   noStroke();
   fill(255);
@@ -187,7 +175,7 @@ void draw()
     background.sizeX = width;
     background.sizeY = height;
     background.tilesize = (height) / 80;
-    background.aiMove();
+    //background.aiMove();
     background.travel();
     background.colision();
     background.render();
@@ -276,8 +264,6 @@ void draw()
     
     if(mouseX < height/6 && mouseX > height/50 && mouseY > height-height/6)
     {
-      hand = true;
-      cursor(HAND);
       if(mousePressed && pageAt == 0)
       {
         link("https://mega.nz/#!kUcDhIzK!OGLmreZ8kzzUJMucT_e3QejIJhfy05iEhJB67x66H08"); 
@@ -330,7 +316,7 @@ void draw()
       {
         
       }
-      writeOption = createWriter("config.rcn"); 
+      writeOption = createWriter(sketchPath("")+"config.rcn"); 
       writeOption.println(appleAmount + "/" + int(powerUp) + "/" + int(wales) + "/" + colore[0][0] + "/" + colore[0][1] + "/" + colore[0][2] + "/" + colore[1][0] + "/" + colore[1][1]+ "/" + colore[1][2] + "/" + colore[2][0] + "/" + colore[2][1] + "/" + colore[2][2] + "/" + colore[3][0] + "/" + colore[3][1] + "/" + colore[3][2] + "/" + backR + "/" + backG + "/" + backB + "/" + startLengh + "/" + tilesize + "/" + int(fullscreen));
       writeOption.flush();
       writeOption.close();
@@ -518,7 +504,7 @@ void draw()
     start.render();
     if(start.presd() || keyz[16])
     {
-      writeOption = createWriter("config.rcn"); 
+      writeOption = createWriter(sketchPath("")+"config.rcn"); 
       writeOption.println(appleAmount + "/" + int(powerUp) + "/" + int(wales) + "/" + colore[0][0] + "/" + colore[0][1] + "/" + colore[0][2] + "/" + colore[1][0] + "/" + colore[1][1]+ "/" + colore[1][2] + "/" + colore[2][0] + "/" + colore[2][1] + "/" + colore[2][2] + "/" + colore[3][0] + "/" + colore[3][1] + "/" + colore[3][2] + "/" + backR + "/" + backG + "/" + backB + "/" + startLengh + "/" + tilesize + "/" + int(fullscreen));
       writeOption.flush();
       writeOption.close();
@@ -527,6 +513,15 @@ void draw()
       gameS.setColor(backR,backG,backB,0,0,0);
       gameS.startGame(appleAmount, powerUp, wales, 1, 0, colore, startLengh, tilesize);
       pageAt = 8;
+    }
+    
+    if(keyz[17])
+    {
+      gameM.sizeX = width;
+      gameM.sizeY = height;
+      gameM.setColor(backR,backG,backB,0,0,0);
+      gameM.startGame(appleAmount, powerUp, wales, player, aiPlayer, colore, startLengh, tilesize);
+      pageAt = 10;
     }
     
     back.posX = height/30;
@@ -538,7 +533,7 @@ void draw()
     if(back.presd())
     {
       pageAt = -1;
-      writeOption = createWriter("config.rcn"); 
+      writeOption = createWriter(sketchPath("")+"config.rcn"); 
       writeOption.println(appleAmount + "/" + int(powerUp) + "/" + int(wales) + "/" + colore[0][0] + "/" + colore[0][1] + "/" + colore[0][2] + "/" + colore[1][0] + "/" + colore[1][1]+ "/" + colore[1][2] + "/" + colore[2][0] + "/" + colore[2][1] + "/" + colore[2][2] + "/" + colore[3][0] + "/" + colore[3][1] + "/" + colore[3][2] + "/" + backR + "/" + backG + "/" + backB + "/" + startLengh + "/" + tilesize + "/" + int(fullscreen));
       writeOption.flush();
       writeOption.close();
@@ -688,8 +683,7 @@ void draw()
     }
     else
     {
-      noCursor();
-      hand = true;
+      
     }
   }
   else if(pageAt == 6)
@@ -1597,7 +1591,7 @@ void draw()
     start.render();
     if(start.presd() || keyz[16])
     {
-      writeOption = createWriter("config.rcn"); 
+      writeOption = createWriter(sketchPath("")+"config.rcn"); 
       writeOption.println(appleAmount + "/" + int(powerUp) + "/" + int(wales) + "/" + colore[0][0] + "/" + colore[0][1] + "/" + colore[0][2] + "/" + colore[1][0] + "/" + colore[1][1]+ "/" + colore[1][2] + "/" + colore[2][0] + "/" + colore[2][1] + "/" + colore[2][2] + "/" + colore[3][0] + "/" + colore[3][1] + "/" + colore[3][2] + "/" + backR + "/" + backG + "/" + backB + "/" + startLengh + "/" + tilesize + "/" + int(fullscreen));
       writeOption.flush();
       writeOption.close();
@@ -1617,7 +1611,7 @@ void draw()
     if(back.presd())
     {
       pageAt = -1;
-      writeOption = createWriter("config.rcn"); 
+      writeOption = createWriter(sketchPath("")+"config.rcn"); 
       writeOption.println(appleAmount + "/" + int(powerUp) + "/" + int(wales) + "/" + colore[0][0] + "/" + colore[0][1] + "/" + colore[0][2] + "/" + colore[1][0] + "/" + colore[1][1]+ "/" + colore[1][2] + "/" + colore[2][0] + "/" + colore[2][1] + "/" + colore[2][2] + "/" + colore[3][0] + "/" + colore[3][1] + "/" + colore[3][2] + "/" + backR + "/" + backG + "/" + backB + "/" + startLengh + "/" + tilesize + "/" + int(fullscreen));
       writeOption.flush();
       writeOption.close();
@@ -1723,8 +1717,6 @@ void draw()
     }
     else
     {
-      noCursor();
-      hand = true;
     }
     
   }
@@ -2633,7 +2625,7 @@ void draw()
     start.render();
     if(start.presd() || keyz[16])
     {
-     writeOption = createWriter("config.rcn"); 
+     writeOption = createWriter(sketchPath("")+"config.rcn"); 
       writeOption.println(appleAmount + "/" + int(powerUp) + "/" + int(wales) + "/" + colore[0][0] + "/" + colore[0][1] + "/" + colore[0][2] + "/" + colore[1][0] + "/" + colore[1][1]+ "/" + colore[1][2] + "/" + colore[2][0] + "/" + colore[2][1] + "/" + colore[2][2] + "/" + colore[3][0] + "/" + colore[3][1] + "/" + colore[3][2] + "/" + backR + "/" + backG + "/" + backB + "/" + startLengh + "/" + tilesize + "/" + int(fullscreen));
       writeOption.flush();
       writeOption.close();
@@ -2653,7 +2645,7 @@ void draw()
     if(back.presd())
     {
       pageAt = -1;
-      writeOption = createWriter("config.rcn"); 
+      writeOption = createWriter(sketchPath("")+"config.rcn"); 
       writeOption.println(appleAmount + "/" + int(powerUp) + "/" + int(wales) + "/" + colore[0][0] + "/" + colore[0][1] + "/" + colore[0][2] + "/" + colore[1][0] + "/" + colore[1][1]+ "/" + colore[1][2] + "/" + colore[2][0] + "/" + colore[2][1] + "/" + colore[2][2] + "/" + colore[3][0] + "/" + colore[3][1] + "/" + colore[3][2] + "/" + backR + "/" + backG + "/" + backB + "/" + startLengh + "/" + tilesize + "/" + int(fullscreen));
       writeOption.flush();
       writeOption.close();
@@ -2664,6 +2656,7 @@ void draw()
   {
     //surface.setSize(gameS.sizeX, gameS.sizeY);
     gameM.input();
+    gameM.aiMove();
     gameM.travel();
     gameM.input();
     
@@ -2720,8 +2713,6 @@ void draw()
     }
     else
     {
-      noCursor();
-      hand = true;
     }
     
    }
@@ -2743,10 +2734,10 @@ class game
   int restY1;
   
   //**********Game Varibles****************//
-  int headX[][] = new int[4][2500];
-  int headY[][] = new int[4][2500];
-  int appleX[] = new int[2500];
-  int appleY[] = new int[2500];
+  int headX[][] = new int[4][500];
+  int headY[][] = new int[4][500];
+  int appleX[] = new int[300];
+  int appleY[] = new int[300];
   int power[] = new int[2];
   int angle[] = new int[4];
   int pLength[] = new int[4];
@@ -2837,6 +2828,10 @@ class game
       playerLeft[p] = true;
       powerAktiv[p][0] = 0;
       powerAktiv[p][1] = 0;
+    }
+    for(int k = 0; k < 17; k++)
+    {
+      keyz[k] = false;
     }
     power[0] = -100;
     power[1] = 0;
@@ -3047,90 +3042,9 @@ class game
   
   void input()
   {
-    //keyPressed();
-  //}
 
-    if(keyPressed)
-    {
-  //void keyPressed()
-  //{
+    
        /*************Player1************
-        if (keyCode == UP  && angle[0]!=270 && (headY[0][0]-1)!=headY[0][1])
-        {
-          angle[0]=90;
-        }
-        if (keyCode == DOWN && angle[0]!=90 && (headY[0][0]+1)!=headY[0][1])
-        {
-          angle[0]=270;
-        }if (keyCode == LEFT && angle[0]!=0 && (headX[0][0]-1)!=headX[0][1])
-        {
-          angle[0]=180;
-        }if (keyCode == RIGHT && angle[0]!=180 && (headX[0][0]+1)!=headX[0][1])
-        {
-          angle[0]=0;
-        }
-       
-       if(player > 1)
-       {
-       //*************Player2************
-        if ((key == 'w' || key == 'W')  && angle[1]!=270 && (headY[1][0]-1)!=headY[1][1])
-        {
-          angle[1]=90;
-        }
-        if ((key == 's'  || key == 'S')&& angle[1]!=90 && (headY[1][0]+1)!=headY[1][1])
-        {
-          angle[1]=270;
-        }if ((key == 'a'  || key == 'A')&& angle[1]!=0 && (headX[1][0]-1)!=headX[1][1])
-        {
-          angle[1]=180;
-        }if ((key == 'd' || key == 'D') && angle[1]!=180 && (headX[1][0]+1)!=headX[1][1])
-        {
-          angle[1]=0;
-        }
-       }
-       if(player > 2)
-       {
-        //*************Player3************
-        if (key == '8'  && angle[2]!=270 && (headY[2][0]-1)!=headY[2][1])
-        {
-          angle[2]=90;
-        }
-        if (key == '5' && angle[2]!=90 && (headY[2][0]+1)!=headY[2][1])
-        {
-          angle[2]=270;
-        }if (key == '4' && angle[2]!=0 && (headX[2][0]-1)!=headX[2][1])
-        {
-          angle[2]=180;
-        }if (key == '6' && angle[2]!=180 && (headX[2][0]+1)!=headX[2][1])
-        {
-          angle[2]=0;
-        }
-       }
-       if(player > 3)
-       {
-        //*************Player4************
-        if ((key == 'u'  || key == 'W') && angle[3]!=270 && (headY[3][0]-1)!=headY[3][1])
-        {
-          angle[3]=90;
-        }
-        if ((key == 'j'  || key == 'J')&& angle[3]!=90 && (headY[3][0]+1)!=headY[3][1])
-        {
-          angle[3]=270;
-        }if ((key == 'h'  || key == 'H')&& angle[3]!=0 && (headX[3][0]-1)!=headX[3][1])
-        {
-          angle[3]=180;
-        }if ((key == 'k'  || key == 'K')&& angle[3]!=180 && (headX[3][0]+1)!=headX[3][1])
-        {
-          angle[3]=0;
-        }
-       }
-       //**************************/
-      
- // }
-  
-  //void keyReleased()
-  //{
-       //*************Player1************
         if (keyz[12]  && angle[0]!=270 && (headY[0][0]-1)!=headY[0][1])
         {
           angle[0]=90;
@@ -3145,7 +3059,9 @@ class game
         {
           angle[0]=0;
         }
-      }
+       //*/
+       
+       angle[0] = inputPlus(angle[0]);
        
        if(player > 1)
        {
@@ -3914,7 +3830,7 @@ class game
         }
         if(((headX[p][0] == power[0] && headY[p][0] == power[1]) || (headX[p][0]-1 == power[0] && headY[p][0] == power[1]) || (headX[p][0] == power[0] && headY[p][0]-1 == power[1]) || (headX[p][0]-1 == power[0] && headY[p][0]-1 == power[1]))&& playerLeft[p])
         {
-          switch((int)random(0,7))
+          switch((int)random(0,10))
           {
             case 0:
               powerAktiv[p][0] = 1;
@@ -3965,6 +3881,18 @@ class game
               }
               wallKaos[0] = round(random(5,10));
               wallKaos[1] = millis();
+              powerAktiv[p][1] = millis();
+            break;
+            case 7:
+              powerAktiv[p][0] = 5;
+              powerAktiv[p][1] = millis();
+            break;
+            case 8:
+              powerAktiv[p][0] = 5;
+              powerAktiv[p][1] = millis();
+            break;
+            case 9:
+              powerAktiv[p][0] = 1;
               powerAktiv[p][1] = millis();
             break;
             default:
@@ -4123,8 +4051,6 @@ class checkBox
   {
     if(mouseX > posX && mouseX < (posX + sizeX) && mouseY > posY && mouseY < (posY + sizeY) )
     {
-      cursor(HAND);
-      hand = true;
        if (mousePressed) {
          if(!pressd)
          {
@@ -4196,7 +4122,7 @@ class button
       rect(posX, posY, sizeX, sizeY);
       fill(colore[2][0],colore[2][1],colore[2][2]);
       textAlign(CENTER, CENTER);
-      PFont myfont = createFont("ARLRDBD.TTF", textSize);
+      PFont myFont = createFont("ARLRDBD.TTF", textSize);
       textFont(myFont);
       text(text, posX + (sizeX/2), posY + (sizeY/2) - (sizeY/9));
     
@@ -4206,8 +4132,6 @@ class button
   {
     if(mouseX > posX && mouseX < (posX + sizeX) && mouseY > posY && mouseY < (posY + sizeY) )
     {
-      cursor(HAND);
-      hand = true;
        if (mousePressed) {
          
          
@@ -4282,8 +4206,6 @@ class slider
   {
     if (mouseX > (posX /*+ map(value,minVal,maxVal,0,size) - (cirkSize)*/) && mouseX < (posX + size/*+ map(value,minVal,maxVal,0,size) + (cirkSize)*/) && mouseY > (posY - (cirkSize)) && mouseY < (posY + (cirkSize)) )
     {
-      cursor(HAND);
-      hand = true;
       if (mousePressed)
       {
         if(lastPres)
@@ -4320,44 +4242,57 @@ class slider
   
 }
 
-boolean keyz[] = new boolean[17];
+boolean keyz[] = new boolean[18];
+boolean presed = false;
 
-void keyPressed() {
-  if (key == 'W' || key == 'w')  {keyz[0] = true; keyz[1] = false; keyz[2] = false; keyz[3] = false;}
-  if (key == 'S' || key == 's')  {keyz[0] = false; keyz[1] = true; keyz[2] = false; keyz[3] = false;}
-  if (key == 'A' || key == 'a')  {keyz[0] = false; keyz[1] = false; keyz[2] = true; keyz[3] = false;}
-  if (key == 'D' || key == 'd')  {keyz[0] = false; keyz[1] = false; keyz[2] = false; keyz[3] = true;}
-  if (key == '8')  {keyz[4] = true; keyz[5] = false; keyz[6] = false; keyz[7] = false;}
-  if (key == '5')  {keyz[4] = false; keyz[5] = true; keyz[6] = false; keyz[7] = false;}
-  if (key == '4')  {keyz[4] = false; keyz[5] = false; keyz[6] = true; keyz[7] = false;}
-  if (key == '6')  {keyz[4] = false; keyz[5] = false; keyz[6] = false; keyz[7] = true;}
-  if (key == 'u' || key == 'U')  {keyz[8] = true; keyz[9] = false; keyz[10] = false; keyz[11] = false;}
-  if (key == 'j' || key == 'J')  {keyz[8] = false; keyz[9] = true; keyz[10] = false; keyz[11] = false;}
-  if (key == 'h' || key == 'H')  {keyz[8] = false; keyz[9] = false; keyz[10] = true; keyz[11] = false;}
-  if (key == 'k' || key == 'K')  {keyz[8] = false; keyz[9] = false; keyz[10] = false; keyz[11] = true;}
-  if (keyCode == UP)  {keyz[12] = true; keyz[13] = false; keyz[14] = false; keyz[15] = false;}
-  if (keyCode == DOWN)  {keyz[12] = false; keyz[13] = true; keyz[14] = false; keyz[15] = false;}
-  if (keyCode == LEFT)  {keyz[12] = false; keyz[13] = false; keyz[14] = true; keyz[15] = false;}
-  if (keyCode == RIGHT)  {keyz[12] = false; keyz[13] = false; keyz[14] = false; keyz[15] = true;}
-  if (key == ENTER || key == RETURN) {keyz[16] = true;}
-}
-
-void keyReleased() {
-  /*if (key == 'W' || key == 'w')  {keyz[0] = false; keyz[1] = false; keyz[2] = false; keyz[3] = false;}
-  if (key == 'S' || key == 's')  {keyz[0] = false; keyz[1] = false; keyz[2] = false; keyz[3] = false;}
-  if (key == 'A' || key == 'a')  {keyz[0] = false; keyz[1] = false; keyz[2] = false; keyz[3] = false;}
-  if (key == 'D' || key == 'd')  {keyz[0] = false; keyz[1] = false; keyz[2] = false; keyz[3] = false;}
-  if (key == '8')  {keyz[4] = false; keyz[5] = false; keyz[6] = false; keyz[7] = false;}
-  if (key == '5')  {keyz[4] = false; keyz[5] = false; keyz[6] = false; keyz[7] = false;}
-  if (key == '4')  {keyz[4] = false; keyz[5] = false; keyz[6] = false; keyz[7] = false;}
-  if (key == '6')  {keyz[4] = false; keyz[5] = false; keyz[6] = false; keyz[7] = false;}
-  if (key == 'u' || key == 'U')  {keyz[8] = false; keyz[9] = false; keyz[10] = false; keyz[11] = false;}
-  if (key == 'j' || key == 'J')  {keyz[8] = false; keyz[9] = false; keyz[10] = false; keyz[11] = false;}
-  if (key == 'h' || key == 'H')  {keyz[8] = false; keyz[9] = false; keyz[10] = false; keyz[11] = false;}
-  if (key == 'k' || key == 'K')  {keyz[8] = false; keyz[9] = false; keyz[10] = false; keyz[11] = false;}
-  if (keyCode == UP)  {keyz[12] = false; keyz[13] = false; keyz[14] = false; keyz[15] = false;}
-  if (keyCode == DOWN)  {keyz[12] = false; keyz[13] = false; keyz[14] = false; keyz[15] = false;}
-  if (keyCode == LEFT)  {keyz[12] = false; keyz[13] = false; keyz[14] = false; keyz[15] = false;}
-  if (keyCode == RIGHT)  {keyz[12] = false; keyz[13] = false; keyz[14] = false; keyz[15] = false;}*/
-  if (key == ENTER || key == RETURN) {keyz[16] = false;}
+int inputPlus(int angle)
+{
+  int outAng = angle;
+  if(mousePressed)
+  {
+    if(mouseX > width/2 && !presed)
+    {
+      switch(angle)
+      {
+        case 0: 
+          outAng = 270;
+        break;
+        case 90: 
+          outAng = 0;
+        break;
+        case 180: 
+          outAng = 90;
+        break;
+        case 270: 
+          outAng = 180;
+        break;
+        default: break;
+      }
+    }
+    else if(!presed)
+    {
+      switch(angle)
+      {
+        case 0: 
+          outAng = 90;
+        break;
+        case 90: 
+          outAng = 180;
+        break;
+        case 180: 
+          outAng = 270;
+        break;
+        case 270: 
+          outAng = 0;
+        break;
+        default: break;
+      }
+    }
+    presed = true;
+  }
+  else
+  {
+    presed = false;
+  }
+  return outAng;
 }
