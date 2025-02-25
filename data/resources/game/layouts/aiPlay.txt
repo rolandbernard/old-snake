@@ -1,0 +1,47 @@
+0|0|7|0|0|2|2|2|2|0
+/
+/button		posX | posY | sizeX | sizeY | textSize | text | F1 | F2 | F3 | R1 | R2 | R3 | T1 | T2 | T3
+/
+/
+/checkbox	posX | posY | sizeX | sizeY | checked | color[2][3] (F,R)
+/
+/
+/slider	 	size | cirkSize | posX | posY | value | minVal | maxVal | color[3][3](L,F,R)
+/
+2500|250|3200|1500|50|0|255|0|0|50|150|150|150|0|0|0
+2500|250|3200|2500|50|0|255|0|0|50|150|150|150|0|0|0
+2500|250|3200|3500|50|0|255|0|0|50|150|150|150|0|0|0
+2400|250|6800|4000|50|0|255|0|0|50|150|150|150|0|0|0
+2400|250|6800|5000|50|0|255|0|0|50|150|150|150|0|0|0
+2400|250|6800|6000|50|0|255|0|0|50|150|150|150|0|0|0
+5800|250|3500|500|50|1|4|0|0|50|150|150|150|0|0|0
+/
+/picture	path | x | y | dx | dy | relation
+/
+/
+/svg		path | x | y | dx | dy | relation
+/
+/
+/text		x | y | size | text | alignH | alignV | color
+/
+800|4500|200|Controls:|37|3|0|0|0
+500|500|300|Ai player:|37|3|0|0|0
+/
+/rect		x | y | dx | dy | color[2][3] (F,R)
+/
+500|1000|5500|7500|200|200|200|55|55|55
+6500|1000|3000|7500|150|220|200|55|55|55
+/
+/svg button	path | x | y | dx | dy | relation | color[2](F,R)
+/
+resources/game/grafiks/back.svg|250|8750|1000|1000|2|255|255|255|0|255|255|255|0
+resources/game/grafiks/start.svg|9750|8750|1000|1000|3|255|255|255|0|255|255|255|0
+/
+/selection	x | y | dx | dy | selections[] | textSize | color[3] (F,R,T)
+/
+2500|4250|2400|500|W,A,S,D;Arrow keys;8,4,5,6;U,H,J,K|200|200|200|200|55|55|55|0|0|0
+6800|7000|2400|500|Easy;Medium;Hard;Extreme|200|200|200|200|55|55|55|0|0|0
+/
+/layoutArray	path | x | y | dx | dy | color [2](F,R)
+/
+END

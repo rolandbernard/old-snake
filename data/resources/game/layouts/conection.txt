@@ -1,0 +1,35 @@
+0|0|0|0|0|0|0|4|0|0
+/
+/button		posX | posY | sizeX | sizeY | textSize | text | F1 | F2 | F3 | R1 | R2 | R3 | T1 | T2 | T3
+/
+/
+/checkbox	posX | posY | sizeX | sizeY | checked | color[2][3] (F,R)
+/
+/
+/slider	 	size | cirkSize | posX | posY | value | minVal | maxVal | color[3][3](L,F,R)
+/
+/
+/picture	path | x | y | dx | dy | relation
+/
+/
+/svg		path | x | y | dx | dy | relation
+/
+/
+/text		x | y | size | text | alignH | alignV | color
+/
+/
+/rect		x | y | dx | dy | color[2][3] (F,R)
+/
+/
+/svg button	path | x | y | dx | dy | relation | color[2](F,R)
+/
+resources/game/grafiks/localPc.svg|500|3000|2666|2666|1|200|200|200|255|55|55|55|255
+resources/game/grafiks/lan.svg|3666|3000|2666|2666|1|200|200|200|255|55|55|55|255
+resources/game/grafiks/bluetooth.svg|6832|3000|2666|2666|1|200|200|200|255|55|55|55|255
+resources/game/grafiks/back.svg|250|8750|1000|1000|2|255|255|255|0|255|255|255|0
+/
+/selection	x | y | dx | dy | selections[] | textSize | color[3] (F,R,T)
+/
+/
+/layoutArray	path | x | y | dx | dy | color [2](F,R)
+END

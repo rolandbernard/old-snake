@@ -1,0 +1,38 @@
+0|0|0|0|1|2|0|3|0|0
+/
+/button		posX | posY | sizeX | sizeY | textSize | text | F1 | F2 | F3 | R1 | R2 | R3 | T1 | T2 | T3
+/
+/
+/checkbox	posX | posY | sizeX | sizeY | checked | color[2][3] (F,R)
+/
+/
+/slider	 	size | cirkSize | posX | posY | value | minVal | maxVal | color[3][3](L,F,R)
+/
+/
+/picture	path | x | y | dx | dy | relation
+/
+/resources/icon/rb/logo.png|250|8250|1500|1500|2
+/
+/svg		path | x | y | dx | dy | relation
+/
+resources/icon/rb/logo.svg|250|8250|1500|1500|2
+/
+/text		x | y | size | text | alignH | alignV | color
+/
+5000|500|1500|Snake|3|101|0|50|150
+50|75|150|Roland Bernard - 2016|37|101|150|150|150
+/
+/rect		x | y | dx | dy | color[2][3] (F,R)
+/
+/
+/svg button	path | x | y | dx | dy | relation | color[2](F,R)
+/
+resources/game/grafiks/singleplayer.svg|2000|3750|2500|2500|1|200|200|200|255|55|55|55|255
+resources/game/grafiks/multiplayer.svg|5500|3750|2500|2500|1|200|200|200|255|55|55|55|255
+resources/game/grafiks/options.svg|9750|8750|1000|1000|3|255|255|255|0|255|255|255|0
+/
+/selection	x | y | dx | dy | selections[] | textSize | color[3] (F,R,T)
+/
+/
+/layoutArray	path | x | y | dx | dy | color [2](F,R)
+END

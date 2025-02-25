@@ -1,0 +1,37 @@
+0|0|3|0|0|1|0|0|1|0
+/
+/button		posX | posY | sizeX | sizeY | textSize | text | F1 | F2 | F3 | R1 | R2 | R3 | T1 | T2 | T3
+/
+/
+/checkbox	posX | posY | sizeX | sizeY | checked | color[2][3] (F,R)
+/
+/
+/slider	 	size | cirkSize | posX | posY | value | minVal | maxVal | color[3][3](L,F,R)
+/
+4545|490|4909|666|50|0|255|0|0|50|150|150|150|0|0|0
+4545|490|4909|2000|50|0|255|0|0|50|150|150|150|0|0|0
+4545|490|4909|3333|50|0|255|0|0|50|150|150|150|0|0|0
+/
+/picture	path | x | y | dx | dy | relation
+/
+/
+/svg		path | x | y | dx | dy | relation
+/
+/
+/text		x | y | size | text | alignH | alignV | color
+/
+545|4666|545|Controls:|37|3|0|0|0
+/
+/rect		x | y | dx | dy | color[2][3] (F,R)
+/
+/
+/svg button	path | x | y | dx | dy | relation | color[2](F,R)
+/
+/
+/selection	x | y | dx | dy | selections[] | textSize | color[3] (F,R,T)
+/
+3300|4333|5563|700|W,A,S,D;Arrow keys;8,4,5,6;U,H,J,K|404|200|200|200|55|55|55|0|0|0
+/
+/layoutArray	path | x | y | dx | dy | color [2](F,R)
+/
+END
