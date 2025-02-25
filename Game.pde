@@ -1205,7 +1205,7 @@ class game
     {
         noStroke();
         fill(pColor[p]);
-        rectMode(CORNER);
+        rectMode(CENTER);
          
         strokeJoin(MITER);
         stroke(colors[0]);
@@ -1213,10 +1213,7 @@ class game
          
         for(int h = 0; h < head[p][0].z ; h++)
         {  
-          
-          
-          rect((spacing[0] + (head[p][h].x * tilesize)) + (wales ? tilesize : 0) + pos.x*width,( spacing[1]  + (head[p][h].y * tilesize)) + (wales ? tilesize : 0) + pos.y * height, tilesize, tilesize);
-          
+          rect((spacing[0] + (head[p][h].x * tilesize + tilesize/2)) + (wales ? tilesize : 0) + pos.x*width,( spacing[1]  + (head[p][h].y * tilesize + tilesize/2)) + (wales ? tilesize : 0) + pos.y * height, tilesize * ((((float)head[p][0].z-h)/head[p][0].z)*0.2f + 0.8f), tilesize * ((((float)head[p][0].z-h)/head[p][0].z)*0.2f + 0.8f));
         }
         if(movement[p].y == -1)
           shape(eyesUp,(spacing[0] + (head[p][0].x * tilesize)) + (wales ? tilesize : 0) + pos.x*width,( spacing[1]  + (head[p][0].y * tilesize)) + (wales ? tilesize : 0) + pos.y * height, tilesize, tilesize);
