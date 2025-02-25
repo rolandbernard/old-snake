@@ -615,12 +615,12 @@ void draw()
     }
     else
     {
-   
     
     if(gameOver && tempMode == 0)
     {
       fill(240);
       stroke(55);
+      strokeWeight(0.425 * 0.05 * height);
       rect(0.3 * width, 0.425 * height, 0.4 * width, 0.35 * height); 
       name.render();
       nameB.render();
@@ -640,6 +640,7 @@ void draw()
     {
       fill(240);
       stroke(55);
+      strokeWeight(0.425 * 0.05 * height);
       rect(0.3 * width, 0.525 * height, 0.4 * width, 0.25 * height); 
       home.render();
       again.render();
@@ -660,6 +661,7 @@ void draw()
     {
       fill(240);
       stroke(55);
+      strokeWeight(0.425 * 0.05 * height);
       rect(0.3 * width, 0.425 * height, 0.4 * width, 0.35 * height); 
       home.render();
       again.render();
@@ -670,15 +672,16 @@ void draw()
       fill(0);
       textAlign(CENTER, CENTER);
       textFont(createFont("Arial Rounded MT Bold", width * 0.03));
-      text("You got to:", 0.5 * width, 0.5 * height);
+      text("You got to: ", 0.5 * width, 0.5 * height);
       textFont(createFont("Arial Rounded MT Bold", width * 0.04));
-      text("Wave: " + Integer.toString(waveI), 0.5 * width, 0.6 * height);
+      text("Wave " + Integer.toString(waveI), 0.5 * width, 0.6 * height);
     }
     
     if(gameOver && tempMode == 3)
     {
       fill(240);
       stroke(55);
+      strokeWeight(0.425 * 0.05 * height);
       rect(0.3 * width, 0.425 * height, 0.4 * width, 0.35 * height); 
       home.render();
       again.render();
@@ -691,7 +694,7 @@ void draw()
       textFont(createFont("Arial Rounded MT Bold", width * 0.03));
       if(m_game.winning() && m_game.winner() < player)
       {
-        text("Player " + Integer.toString(m_game.winner()) + " won!", 0.5 * width, 0.475 * height);
+        text("Player " + Integer.toString(m_game.winner()+1) + " won!", 0.5 * width, 0.475 * height);
         fill(m_game.pColor[m_game.winner()]);
         rect(0.3125 * width, 0.55 * height, 0.375 * width, 0.1 * height);
       }
@@ -1043,10 +1046,10 @@ void backgroundCheck()
             {
               if(score > highscoreP[i])
               {
-                for(int i2 = i; i2 < 9; i2++)
+                for(int i2 = 9; i2 > i; i2--)
                 {
-                  highscoreP[i2+1] = highscoreP[i2];
-                  highscores[i2+1] = highscores[i2];
+                  highscoreP[i2] = highscoreP[i2-1];
+                  highscores[i2] = highscores[i2-1];
                 }
                 highscoreP[i] = score;
                 highscores[i] = name.text;

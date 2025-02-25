@@ -20,7 +20,7 @@ resources/icon/rb/logo.svg|250|8250|1500|1500|2
 /text		x | y | size | text | alignH | alignV | color
 /
 5000|500|1500|Snake|3|101|0|50|150
-50|75|150|Roland Bernard - 2016|37|101|150|150|150
+50|75|150|(C) Copyright 2016-2018 by Roland Bernard|37|101|170|170|170
 /
 /rect		x | y | dx | dy | color[2][3] (F,R)
 /

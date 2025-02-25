@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -7,35 +9,33 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   version="1.1"
+   width="200mm"
+   height="200mm"
+   viewBox="0 0 708.66142 708.66141"
    id="svg2"
-   viewBox="0 0 907.08661 907.08661"
-   height="256mm"
-   width="256mm"
+   version="1.1"
    inkscape:version="0.91 r13725"
    sodipodi:docname="logo.svg">
-  <sodipodi:namedview
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1"
-     objecttolerance="10"
-     gridtolerance="10"
-     guidetolerance="10"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:window-width="1280"
-     inkscape:window-height="961"
-     id="namedview14"
-     showgrid="false"
-     inkscape:zoom="0.7358821"
-     inkscape:cx="453.54331"
-     inkscape:cy="453.54331"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="svg2" />
   <defs
      id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="433.35539"
+     inkscape:cy="528.05535"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1137"
+     inkscape:window-x="1016"
+     inkscape:window-y="74"
+     inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -44,30 +44,13 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <ellipse
-     style="opacity:1;fill:#d4d4d4;fill-opacity:1;stroke:#4d4e4f;stroke-width:16.22032166;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-     id="path4291"
-     cx="454.63925"
-     cy="454.80045"
-     rx="443.09644"
-     ry="441.64957" />
-  <path
-     inkscape:connector-curvature="0"
-     style="display:inline;fill:#a5a5a5;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-     d="m 685.73291,805.02345 -0.0103,-173.20183 -377.25108,-193.528 -0.0946,175.39026 z"
-     id="path3424-5-6" />
-  <path
-     inkscape:connector-curvature="0"
-     style="display:inline;opacity:1;fill:#404040;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-     d="m 308.37659,613.71965 0.0405,-175.45168 296.23563,-142.16154 -0.11378,172.74425 z"
-     id="path3424-5-0" />
-  <path
-     inkscape:connector-curvature="0"
-     style="display:inline;fill:#878787;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-     d="M 604.7041,468.93937 604.7719,295.97191 227.75336,102.58454 227.72306,277.9748 Z"
-     id="path3424-5" />
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-343.70079)" />
 </svg>

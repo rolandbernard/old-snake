@@ -24,6 +24,7 @@ class textf
   
   void render()
   {
+    strokeWeight(size.y * 0.05 * height);
     if(width != controlX)
     {
       font = createFont("Arial Rounded MT Bold", texts * width);
