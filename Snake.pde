@@ -1,3 +1,4 @@
+String version = "0.1.5";
 
 int pageAt = -1;
 int appleAmount = 3;
@@ -36,7 +37,7 @@ slider backgroundColG = new slider(1,1,1,1,210, 0,255);
 slider backgroundColB = new slider(1,1,1,1,210, 0,255);
 slider startSize = new slider(1,1,1,1,5, 2,300);
 slider apples = new slider(1,1,1,1,3, 1,100);
-slider tileSize = new slider(1,1,1,1,10, 2,20);
+slider tileSize = new slider(1,1,1,1,10, 2,100);
 checkBox wall = new checkBox(1,1,1,1, true);
 checkBox powerUps = new checkBox(1,1,1,1, false);
 checkBox fullSc = new checkBox(1,1,1,1, false);
@@ -54,19 +55,24 @@ PrintWriter writeOption;
 BufferedReader readOption;
 String line;
 
+void settings()
+{
+  size(800,600,P2D);
+  PJOGL.setIcon("icon.png");
+}
 
 void setup()
 {
   //fullScreen();
-  size(800,600);
   frameRate(1000);
   surface.setResizable(true);
   
-  readOption = createReader("config.rcn");   
   
   try 
   {
-    line = readOption.readLine();
+    readOption = createReader(sketchPath("")+"config.rcn"); 
+    if(readOption != null)
+      line = readOption.readLine();
   }
   catch (IOException e) 
   {
@@ -106,8 +112,8 @@ void setup()
     fullscreen = boolean( int(pieces[20]) );
   }
   
-  PImage icon = loadImage("icon.png");
-  surface.setIcon(icon);
+  //PImage icon = loadImage("icon.png");
+  //surface.setIcon(icon);
   
   background.startGame(10,false,false,0,4,colore,5,5);
   background.setColor(210,210,210,0,0,0);
@@ -146,10 +152,11 @@ void setup()
   powerUps.checked = powerUp;
   fullSc.setColors(148, 155,143, 12,0, 30,  3, 255, 0);
   fullSc.checked = fullscreen;
-  tileSize.moveMulti = 5;
+  tileSize.moveMulti = 2;
   again.setColors(148, 155, 143,1, 19, 48,13, 6, 35);
   home.setColors(148, 155, 143,1, 19, 48,13, 6, 35);
   exit.setColors(148, 155, 143,1, 19, 48,13, 6, 35);
+  exit.changeS = false;
   
   if(fullscreen)
   {
@@ -159,11 +166,11 @@ void setup()
 
 void draw()
 {
-  if (width < 800) {
-    surface.setSize(800, height);
+  if (width < 400) {
+    surface.setSize(400, height);
   }
-  if (height < 600) {
-    surface.setSize(width, 600);
+  if (height < 300) {
+    surface.setSize(width, 300);
   }
   if(!hand)
   {
@@ -195,7 +202,7 @@ void draw()
     rect(0,0,width,height);
     fill(255,0,0);
     textAlign(CENTER,CENTER);
-    font = createFont("Arial Rounded MT Bold", 0.18*width);
+    font = createFont("ARLRDBD.TTF", 0.18*width);
     textFont(font);
     text("Snake",(width/2)-(0.005*width),(0.14*height)-(0.005*width));
     fill(70,80,255);
@@ -247,11 +254,12 @@ void draw()
       pageAt = 1;
     }
     
+    exit.srokeSize = height/200;
     exit.posX = 22*width/25 + width/210;
     exit.posY =  23*height/25 - height/18;
     exit.sizeX = width/12;
     exit.sizeY = height/32;
-    exit.textSize = width/60;
+    exit.textSize = width/50;
     exit.render();
     if(exit.presd() && pageAt == 0)
     {
@@ -262,9 +270,19 @@ void draw()
     image(img, 0+height/50,5*height/6-height/22, height/6 ,height/6);
     fill(0);
     textAlign(CENTER,BOTTOM);
-    font = createFont("Arial Rounded MT Bold", 0.018*width);
+    font = createFont("ARLRDBD.TTF", 0.018*width);
     textFont(font);
     text("Roland Bernard", height/12 + height/48, height-height/80);
+    
+    if(mouseX < height/6 && mouseX > height/50 && mouseY > height-height/6)
+    {
+      hand = true;
+      cursor(HAND);
+      if(mousePressed && pageAt == 0)
+      {
+        link("https://mega.nz/#!kUcDhIzK!OGLmreZ8kzzUJMucT_e3QejIJhfy05iEhJB67x66H08"); 
+      }
+    }
     
     if(pageAt == -1)
     {
@@ -335,7 +353,7 @@ void draw()
     
     fill(0);
     textAlign(LEFT,CENTER);
-    font = createFont("Arial Rounded MT Bold", width/30);
+    font = createFont("ARLRDBD.TTF", width/30);
     textFont(font);
     text("Background:", width/12 , height/5);
     stroke(0);
@@ -344,17 +362,17 @@ void draw()
     rect(width/3 , height/5 - height/10 + height/100 , width/15, height/5);
     fill(0);
     textAlign(LEFT,CENTER);
-    font = createFont("Arial Rounded MT Bold", width/30);
+    font = createFont("ARLRDBD.TTF", width/30);
     textFont(font);
     text("R:", width/3 + width/15 + width/70 , height/5 - height/15+ height/200);
     fill(0);
     textAlign(LEFT,CENTER);
-    font = createFont("Arial Rounded MT Bold", width/30);
+    font = createFont("ARLRDBD.TTF", width/30);
     textFont(font);
     text("G:", width/3 + width/15 + width/70, height/5+ height/200);
     fill(0);
     textAlign(LEFT,CENTER);
-    font = createFont("Arial Rounded MT Bold", width/30);
+    font = createFont("ARLRDBD.TTF", width/30);
     textFont(font);
     text("B:", width/3 + width/15 + width/70, height/5 + height/15 + height/200);
     
@@ -383,7 +401,7 @@ void draw()
     
     fill(0);
     textAlign(LEFT,CENTER);
-    font = createFont("Arial Rounded MT Bold", width/30);
+    font = createFont("ARLRDBD.TTF", width/30);
     textFont(font);
     text("Apples:", width/12 , height/5 + height/5);
     textAlign(RIGHT,CENTER);
@@ -400,7 +418,7 @@ void draw()
     
     fill(0);
     textAlign(LEFT,CENTER);
-    font = createFont("Arial Rounded MT Bold", width/30);
+    font = createFont("ARLRDBD.TTF", width/30);
     textFont(font);
     text("Initial length:", width/12 , 2 * height/5 + height/7);
     textAlign(RIGHT,CENTER);
@@ -416,7 +434,7 @@ void draw()
     
     fill(0);
     textAlign(LEFT,CENTER);
-    font = createFont("Arial Rounded MT Bold", width/30);
+    font = createFont("ARLRDBD.TTF", width/30);
     textFont(font);
     text("Tilesize:", width/12 , 2 * height/5 + 2*height/7);
     textAlign(RIGHT,CENTER);
@@ -431,7 +449,7 @@ void draw()
     
     fill(0);
     textAlign(LEFT,CENTER);
-    font = createFont("Arial Rounded MT Bold", width/30);
+    font = createFont("ARLRDBD.TTF", width/30);
     textFont(font);
     text("Walls:", width/6 , 2 * height/5 + 3*height/7);
     
@@ -445,9 +463,9 @@ void draw()
     
     fill(0);
     textAlign(LEFT,CENTER);
-    font = createFont("Arial Rounded MT Bold", width/30);
+    font = createFont("ARLRDBD.TTF", width/30);
     textFont(font);
-    text("PowerUps:", 3*width/5 , 2 * height/5 + 3*height/7);
+    text("Powerups:", 3*width/5 , 2 * height/5 + 3*height/7);
     
     powerUps.posX = 3*width/5 + width/5;
     powerUps.posY =  2 * height/5 + 3*height/7 - height/50;
@@ -458,7 +476,7 @@ void draw()
     
     /*fill(0);
     textAlign(LEFT,CENTER);
-    font = createFont("Arial Rounded MT Bold", width/30);
+    font = createFont("ARLRDBD.TTF", width/30);
     textFont(font);
     text("Fullscreen:", width/6 , 2 * height/5 + 4*height/7 - height/22);
     fullSc.posX = width/6 + width/8 + width/15;
@@ -498,7 +516,7 @@ void draw()
     start.sizeY = height/16; 
     start.textSize = width/30;
     start.render();
-    if(start.presd())
+    if(start.presd() || keyz[16])
     {
       writeOption = createWriter("config.rcn"); 
       writeOption.println(appleAmount + "/" + int(powerUp) + "/" + int(wales) + "/" + colore[0][0] + "/" + colore[0][1] + "/" + colore[0][2] + "/" + colore[1][0] + "/" + colore[1][1]+ "/" + colore[1][2] + "/" + colore[2][0] + "/" + colore[2][1] + "/" + colore[2][2] + "/" + colore[3][0] + "/" + colore[3][1] + "/" + colore[3][2] + "/" + backR + "/" + backG + "/" + backB + "/" + startLengh + "/" + tilesize + "/" + int(fullscreen));
@@ -533,23 +551,23 @@ void draw()
     
     fill(0);
     textAlign(LEFT,CENTER);
-    font = createFont("Arial Rounded MT Bold", width/30);
+    font = createFont("ARLRDBD.TTF", width/30);
     textFont(font);
     text("Color:", width/7 , height/3 + height/9);
     fill(0);
     
     fill(0);
     textAlign(LEFT,CENTER);
-    font = createFont("Arial Rounded MT Bold", width/40);
+    font = createFont("ARLRDBD.TTF", width/40);
     textFont(font);
     text("R:", width/7 + width/6 , height/3 + height/9 - height/15 + height/200);
     textAlign(LEFT,CENTER);
-    font = createFont("Arial Rounded MT Bold", width/40);
+    font = createFont("ARLRDBD.TTF", width/40);
     textFont(font);
     text("G:", width/7 + width/6, height/3 + height/9 + height/200);
     fill(0);
     textAlign(LEFT,CENTER);
-    font = createFont("Arial Rounded MT Bold", width/40);
+    font = createFont("ARLRDBD.TTF", width/40);
     textFont(font);
     text("B:", width/7 + width/6, height/3 + height/9 + height/15 + height/200);
     
@@ -578,7 +596,7 @@ void draw()
     
     fill(0);
     textAlign(LEFT,CENTER);
-    font = createFont("Arial Rounded MT Bold", width/30);
+    font = createFont("ARLRDBD.TTF", width/30);
     textFont(font);
     text("Controls:", width/7 , 3*height/4 + height/16);
     fill(0);
@@ -586,7 +604,7 @@ void draw()
     stroke(10);
     strokeWeight(height/300);
     textAlign(CENTER,CENTER);
-    font = createFont("Arial Rounded MT Bold", height/40);
+    font = createFont("ARLRDBD.TTF", height/40);
     textFont(font);
     
     fill(199, 201, 175);
@@ -598,21 +616,21 @@ void draw()
     fill(199, 201, 175);
     rect( width/2 ,3*height/4 - height/20 + height/15 + height/45, height/15,height/15);
     fill(0);
-    font = createFont("Arial Rounded MT Bold", height/45);
+    font = createFont("ARLRDBD.TTF", height/45);
     textFont(font);
     text("Down", width/2 + height/30,3*height/4 - height/20 + height/15 + height/45 + height/30);
     
     fill(199, 201, 175);
     rect( width/2 - height/15 - height/45,3*height/4 - height/20 + height/15 + height/45, height/15,height/15);
     fill(0);
-    font = createFont("Arial Rounded MT Bold", height/45);
+    font = createFont("ARLRDBD.TTF", height/45);
     textFont(font);
     text("Left", width/2 - height/15 - height/45 + height/30,3*height/4 - height/20 + height/15 + height/45 + height/30);
     
     fill(199, 201, 175);
     rect( width/2 + height/15 + height/45,3*height/4 - height/20 + height/15 + height/45, height/15,height/15);
     fill(0);
-    font = createFont("Arial Rounded MT Bold", height/45);
+    font = createFont("ARLRDBD.TTF", height/45);
     textFont(font);
     text("Right", width/2 + height/15 + height/45 + height/30,3*height/4 - height/20 + height/15 + height/45 + height/30);
     
@@ -632,10 +650,10 @@ void draw()
       rect( width/2-width/4,height/2-height/6,width/2, height/3);
       fill(211, 48, 48);
       textAlign(CENTER,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/15);
+      font = createFont("ARLRDBD.TTF", width/15);
       textFont(font);
       text("Game Over", width/2 , height/2 - height/10);
-      font = createFont("Arial Rounded MT Bold", width/30);
+      font = createFont("ARLRDBD.TTF", width/30);
       textFont(font);
       fill(0);
       text("Score: " + gameS.eaten, width/2 , height/2);
@@ -646,7 +664,7 @@ void draw()
       again.sizeY = height/16; 
       again.textSize = width/30;
       again.render();
-      if(again.presd())
+      if(again.presd() || keyz[16])
       {
         gameS.sizeX = width;
         gameS.sizeY = height;
@@ -697,7 +715,7 @@ void draw()
     
     fill(0);
     textAlign(LEFT,CENTER);
-    font = createFont("Arial Rounded MT Bold", width/30);
+    font = createFont("ARLRDBD.TTF", width/30);
     textFont(font);
     text("Ai player:", width/9 , height/8 - height/120);
     textAlign(RIGHT,CENTER);
@@ -735,23 +753,23 @@ void draw()
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/50);
+      font = createFont("ARLRDBD.TTF", width/50);
       textFont(font);
       text("Color:", width/7 - width/15, height/3 + height/9);
       fill(0);
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("R:", width/7 + width/6 - width/6 + width/50, height/3 + height/9 - height/15 + height/400);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("G:", width/7 + width/6 - width/6 + width/50, height/3 + height/9 + height/400);
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("B:", width/7 + width/6 - width/6 + width/50, height/3 + height/9 + height/15 + height/400);
       
@@ -777,7 +795,7 @@ void draw()
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/50);
+      font = createFont("ARLRDBD.TTF", width/50);
       textFont(font);
       text("Controls:",  width/7 - width/15 , 3*height/4 + height/16);
       fill(0);
@@ -785,7 +803,7 @@ void draw()
         stroke(10);
       strokeWeight(height/300);
       textAlign(CENTER,CENTER);
-      font = createFont("Arial Rounded MT Bold", height/50);
+      font = createFont("ARLRDBD.TTF", height/50);
       textFont(font);
     
       fill(199, 201, 175);
@@ -797,21 +815,21 @@ void draw()
       fill(199, 201, 175);
       rect( width/2- width/4 +width/28,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Down", width/2 + height/30- width/4 +width/28,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 - height/15 - height/45- width/4 +width/28,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Left", width/2 - height/15 - height/45 + height/30- width/4 +width/28,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 + height/15 + height/45- width/4 +width/28,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Right", width/2 + height/15 + height/45 + height/30- width/4 +width/28,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
@@ -828,23 +846,23 @@ void draw()
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/50);
+      font = createFont("ARLRDBD.TTF", width/50);
       textFont(font);
       text("Color:", width/7 - width/15+  width/2-3*width/30 + width/15, height/3 + height/9);
       fill(0);
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("R:", width/7 + width/6 - width/6 + width/50+  width/2-3*width/30 + width/15, height/3 + height/9 - height/15 + height/400);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("G:", width/7 + width/6 - width/6 + width/50+  width/2-3*width/30 + width/15, height/3 + height/9 + height/400);
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("B:", width/7 + width/6 - width/6 + width/50+  width/2-3*width/30 + width/15, height/3 + height/9 + height/15 + height/400);
       
@@ -870,7 +888,7 @@ void draw()
     
       /*fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/50);
+      font = createFont("ARLRDBD.TTF", width/50);
       textFont(font);
       text("Controls:",  width/7 - width/15 +  width/2-3*width/30 + width/15, 3*height/4 + height/16);
       fill(0);
@@ -878,7 +896,7 @@ void draw()
        stroke(10);
       strokeWeight(height/300);
       textAlign(CENTER,CENTER);
-      font = createFont("Arial Rounded MT Bold", height/50);
+      font = createFont("ARLRDBD.TTF", height/50);
       textFont(font);
     
       fill(199, 201, 175);
@@ -890,21 +908,21 @@ void draw()
       fill(199, 201, 175);
       rect( width/2- width/4 +width/28+  width/2-3*width/30 + width/15,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Down", width/2 + height/30- width/4 +width/28+  width/2-3*width/30 + width/15,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 - height/15 - height/45- width/4 +width/28+  width/2-3*width/30 + width/15,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Left", width/2 - height/15 - height/45 + height/30- width/4 +width/28+  width/2-3*width/30 + width/15,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 + height/15 + height/45- width/4 +width/28+  width/2-3*width/30 + width/15,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Right", width/2 + height/15 + height/45 + height/30- width/4 +width/28+  width/2-3*width/30 + width/15,3*height/4 - height/20 + height/15 + height/45 + height/30);*/
     }
@@ -921,23 +939,23 @@ void draw()
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("Color:", width/7 - width/15, height/3 + height/9);
       fill(0);
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("R:", 2*width/18 + width/6 - width/6 + width/50, height/3 + height/9 - height/15 + height/400);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("G:", 2*width/18 + width/6 - width/6 + width/50, height/3 + height/9 + height/400);
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("B:", 2*width/18 + width/6 - width/6 + width/50, height/3 + height/9 + height/15 + height/400);
       
@@ -963,7 +981,7 @@ void draw()
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("Controls:",  width/7 - width/15 , height/2 + height/8);
       fill(0);
@@ -971,7 +989,7 @@ void draw()
       stroke(10);
       strokeWeight(height/300);
       textAlign(CENTER,CENTER);
-      font = createFont("Arial Rounded MT Bold", height/50);
+      font = createFont("ARLRDBD.TTF", height/50);
       textFont(font);
     
       fill(199, 201, 175);
@@ -983,21 +1001,21 @@ void draw()
       fill(199, 201, 175);
       rect( width/2- width/4 +width/28- width/9,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Down", width/2 + height/30- width/4 +width/28- width/9,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 - height/15 - height/45- width/4 +width/28 - width/9,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Left", width/2 - height/15 - height/45 + height/30- width/4 +width/28 - width/9,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 + height/15 + height/45- width/4 +width/28- width/9,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Right", width/2 + height/15 + height/45 + height/30- width/4 +width/28- width/9,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
@@ -1013,23 +1031,23 @@ void draw()
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("Color:", width/7 - width/15+ 2*width/6-3*width/90, height/3 + height/9);
       fill(0);
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/65);
+      font = createFont("ARLRDBD.TTF", width/65);
       textFont(font);
       text("R:", 2*width/18 + width/6 - width/6 + width/50+ 2*width/6-3*width/90, height/3 + height/9 - height/15 + height/400);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/65);
+      font = createFont("ARLRDBD.TTF", width/65);
       textFont(font);
       text("G:", 2*width/18 + width/6 - width/6 + width/50+ 2*width/6-3*width/90, height/3 + height/9 + height/400);
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/65);
+      font = createFont("ARLRDBD.TTF", width/65);
       textFont(font);
       text("B:", 2*width/18 + width/6 - width/6 + width/50+ 2*width/6-3*width/90, height/3 + height/9 + height/15 + height/400);
       
@@ -1056,7 +1074,7 @@ void draw()
       /*
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("Controls:",  width/7 - width/15 + 2*width/6-3*width/90, height/2 + height/8);
       fill(0);
@@ -1064,7 +1082,7 @@ void draw()
       stroke(10);
       strokeWeight(height/300);
       textAlign(CENTER,CENTER);
-      font = createFont("Arial Rounded MT Bold", height/50);
+      font = createFont("ARLRDBD.TTF", height/50);
       textFont(font);
     
       fill(199, 201, 175);
@@ -1076,21 +1094,21 @@ void draw()
       fill(199, 201, 175);
       rect( width/2- width/4 +width/28- width/9+ 2*width/6-3*width/90,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Down", width/2 + height/30- width/4 +width/28- width/9+ 2*width/6-3*width/90,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 - height/15 - height/45- width/4 +width/28 - width/9+ 2*width/6-3*width/90,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Left", width/2 - height/15 - height/45 + height/30- width/4 +width/28 - width/9+ 2*width/6-3*width/90,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 + height/15 + height/45- width/4 +width/28- width/9+ 2*width/6-3*width/90,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Right", width/2 + height/15 + height/45 + height/30- width/4 +width/28- width/9+ 2*width/6-3*width/90,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
@@ -1109,23 +1127,23 @@ void draw()
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("Color:", width/7 - width/15+ 2*width/6-3*width/90+ 2*width/6-3*width/90, height/3 + height/9);
       fill(0);
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("R:", 2*width/18 + width/6 - width/6 + width/50+ 2*width/6-3*width/90+ 2*width/6-3*width/90, height/3 + height/9 - height/15 + height/400);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("G:", 2*width/18 + width/6 - width/6 + width/50+ 2*width/6-3*width/90+ 2*width/6-3*width/90, height/3 + height/9 + height/400);
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("B:", 2*width/18 + width/6 - width/6 + width/50+ 2*width/6-3*width/90+ 2*width/6-3*width/90, height/3 + height/9 + height/15 + height/400);
       
@@ -1152,7 +1170,7 @@ void draw()
       /*
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("Controls:",  width/7 - width/15 + 2*width/6-3*width/90+ 2*width/6-3*width/90, height/2 + height/8);
       fill(0);
@@ -1160,7 +1178,7 @@ void draw()
       stroke(10);
       strokeWeight(height/300);
       textAlign(CENTER,CENTER);
-      font = createFont("Arial Rounded MT Bold", height/50);
+      font = createFont("ARLRDBD.TTF", height/50);
       textFont(font);
     
       fill(199, 201, 175);
@@ -1172,21 +1190,21 @@ void draw()
       fill(199, 201, 175);
       rect( width/2- width/4 +width/28- width/9+ 2*width/6-3*width/90+ 2*width/6-3*width/90,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Down", width/2 + height/30- width/4 +width/28- width/9+ 2*width/6-3*width/90+ 2*width/6-3*width/90,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 - height/15 - height/45- width/4 +width/28 - width/9+ 2*width/6-3*width/90+ 2*width/6-3*width/90,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Left", width/2 - height/15 - height/45 + height/30- width/4 +width/28 - width/9+ 2*width/6-3*width/90+ 2*width/6-3*width/90,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 + height/15 + height/45- width/4 +width/28- width/9+ 2*width/6-3*width/90+ 2*width/6-3*width/90,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Right", width/2 + height/15 + height/45 + height/30- width/4 +width/28- width/9+ 2*width/6-3*width/90+ 2*width/6-3*width/90,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
@@ -1208,23 +1226,23 @@ void draw()
     
       fill(0);
       textAlign(LEFT,TOP);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("Color:", width/7 - width/15, height/3 + height/100);
       fill(0);
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("R:", width/7 - width/15, height/3 + height/9 - height/15 + height/50);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("G:",width/7 - width/15, height/3 + height/9 + height/50);
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("B:", width/7 - width/15, height/3 + height/9 + height/15 + height/50);
       
@@ -1250,7 +1268,7 @@ void draw()
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("Controls:",  width/7 - width/15 , height/2 + height/8);
       fill(0);
@@ -1258,7 +1276,7 @@ void draw()
         stroke(10);
       strokeWeight(height/300);
       textAlign(CENTER,CENTER);
-      font = createFont("Arial Rounded MT Bold", height/50);
+      font = createFont("ARLRDBD.TTF", height/50);
       textFont(font);
     
       fill(199, 201, 175);
@@ -1270,21 +1288,21 @@ void draw()
       fill(199, 201, 175);
       rect( width/2- width/4 +width/28- width/7,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Down", width/2 + height/30- width/4 +width/28- width/7,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 - height/15 - height/45- width/4 +width/28- width/7,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Left", width/2 - height/15 - height/45 + height/30- width/4 +width/28- width/7,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 + height/15 + height/45- width/4 +width/28- width/7,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Right", width/2 + height/15 + height/45 + height/30- width/4 +width/28- width/7,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
@@ -1301,23 +1319,23 @@ void draw()
     
       fill(0);
       textAlign(LEFT,TOP);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("Color:", width/7 - width/15 + width/4-3*width/120, height/3 + height/100);
       fill(0);
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("R:", width/7 - width/15 + width/4-3*width/120, height/3 + height/9 - height/15 + height/50);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("G:",width/7 - width/15 + width/4-3*width/120, height/3 + height/9 + height/50);
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("B:", width/7 - width/15 + width/4-3*width/120, height/3 + height/9 + height/15 + height/50);
       
@@ -1343,7 +1361,7 @@ void draw()
     
       /*fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("Controls:",  width/7 - width/15  + width/4-3*width/120, height/2 + height/8);
       fill(0);
@@ -1351,7 +1369,7 @@ void draw()
         stroke(10);
       strokeWeight(height/300);
       textAlign(CENTER,CENTER);
-      font = createFont("Arial Rounded MT Bold", height/50);
+      font = createFont("ARLRDBD.TTF", height/50);
       textFont(font);
     
       fill(199, 201, 175);
@@ -1363,21 +1381,21 @@ void draw()
       fill(199, 201, 175);
       rect( width/2- width/4 +width/28- width/7  + width/4-3*width/120,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Down", width/2 + height/30- width/4 +width/28- width/7 + width/4-3*width/120,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 - height/15 - height/45- width/4 +width/28- width/7 + width/4-3*width/120,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Left", width/2 - height/15 - height/45 + height/30- width/4 +width/28- width/7 + width/4-3*width/120,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 + height/15 + height/45- width/4 +width/28- width/7 + width/4-3*width/120,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Right", width/2 + height/15 + height/45 + height/30- width/4 +width/28- width/7 + width/4-3*width/120,3*height/4 - height/20 + height/15 + height/45 + height/30);
       */
@@ -1394,23 +1412,23 @@ void draw()
     
       fill(0);
       textAlign(LEFT,TOP);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("Color:", width/7 - width/15+ width/2-3*width/60, height/3 + height/100);
       fill(0);
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("R:", width/7 - width/15+ width/2-3*width/60, height/3 + height/9 - height/15 + height/50);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("G:",width/7 - width/15+ width/2-3*width/60, height/3 + height/9 + height/50);
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("B:", width/7 - width/15+ width/2-3*width/60, height/3 + height/9 + height/15 + height/50);
       
@@ -1436,7 +1454,7 @@ void draw()
     
       /*fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("Controls:",  width/7 - width/15+ width/2-3*width/60, height/2 + height/8);
       fill(0);
@@ -1444,7 +1462,7 @@ void draw()
         stroke(10);
       strokeWeight(height/300);
       textAlign(CENTER,CENTER);
-      font = createFont("Arial Rounded MT Bold", height/50);
+      font = createFont("ARLRDBD.TTF", height/50);
       textFont(font);
     
       fill(199, 201, 175);
@@ -1456,21 +1474,21 @@ void draw()
       fill(199, 201, 175);
       rect( width/2- width/4 +width/28- width/7+ width/2-3*width/60,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Down", width/2 + height/30- width/4 +width/28- width/7+ width/2-3*width/60,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 - height/15 - height/45- width/4 +width/28- width/7+ width/2-3*width/60,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Left", width/2 - height/15 - height/45 + height/30- width/4 +width/28- width/7+ width/2-3*width/60,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 + height/15 + height/45- width/4 +width/28- width/7+ width/2-3*width/60,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Right", width/2 + height/15 + height/45 + height/30- width/4 +width/28- width/7+ width/2-3*width/60,3*height/4 - height/20 + height/15 + height/45 + height/30);
       */
@@ -1487,23 +1505,23 @@ void draw()
     
       fill(0);
       textAlign(LEFT,TOP);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("Color:", width/7 - width/15 + width/4-3*width/120+ width/2-3*width/60, height/3 + height/100);
       fill(0);
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("R:", width/7 - width/15 + width/4-3*width/120+ width/2-3*width/60, height/3 + height/9 - height/15 + height/50);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("G:",width/7 - width/15 + width/4-3*width/120+ width/2-3*width/60, height/3 + height/9 + height/50);
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("B:", width/7 - width/15 + width/4-3*width/120+ width/2-3*width/60, height/3 + height/9 + height/15 + height/50);
       
@@ -1529,7 +1547,7 @@ void draw()
     
       /*fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("Controls:",  width/7 - width/15  + width/4-3*width/120+ width/2-3*width/60, height/2 + height/8);
       fill(0);
@@ -1537,7 +1555,7 @@ void draw()
         stroke(10);
       strokeWeight(height/300);
       textAlign(CENTER,CENTER);
-      font = createFont("Arial Rounded MT Bold", height/50);
+      font = createFont("ARLRDBD.TTF", height/50);
       textFont(font);
     
       fill(199, 201, 175);
@@ -1549,21 +1567,21 @@ void draw()
       fill(199, 201, 175);
       rect( width/2- width/4 +width/28- width/7  + width/4-3*width/120+ width/2-3*width/60,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Down", width/2 + height/30- width/4 +width/28- width/7 + width/4-3*width/120+ width/2-3*width/60,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 - height/15 - height/45- width/4 +width/28- width/7 + width/4-3*width/120+ width/2-3*width/60,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Left", width/2 - height/15 - height/45 + height/30- width/4 +width/28- width/7 + width/4-3*width/120+ width/2-3*width/60,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 + height/15 + height/45- width/4 +width/28- width/7 + width/4-3*width/120+ width/2-3*width/60,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Right", width/2 + height/15 + height/45 + height/30- width/4 +width/28- width/7 + width/4-3*width/120+ width/2-3*width/60,3*height/4 - height/20 + height/15 + height/45 + height/30);*/
       
@@ -1577,7 +1595,7 @@ void draw()
     start.sizeY = height/16; 
     start.textSize = width/30;
     start.render();
-    if(start.presd())
+    if(start.presd() || keyz[16])
     {
       writeOption = createWriter("config.rcn"); 
       writeOption.println(appleAmount + "/" + int(powerUp) + "/" + int(wales) + "/" + colore[0][0] + "/" + colore[0][1] + "/" + colore[0][2] + "/" + colore[1][0] + "/" + colore[1][1]+ "/" + colore[1][2] + "/" + colore[2][0] + "/" + colore[2][1] + "/" + colore[2][2] + "/" + colore[3][0] + "/" + colore[3][1] + "/" + colore[3][2] + "/" + backR + "/" + backG + "/" + backB + "/" + startLengh + "/" + tilesize + "/" + int(fullscreen));
@@ -1623,10 +1641,10 @@ void draw()
       rect( width/2-width/4,height/2-height/6,width/2, height/3);
       fill(211, 48, 48);
       textAlign(CENTER,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/15);
+      font = createFont("ARLRDBD.TTF", width/15);
       textFont(font);
       text("Game Over", width/2 , height/2 - height/10);
-      font = createFont("Arial Rounded MT Bold", width/30);
+      font = createFont("ARLRDBD.TTF", width/30);
       textFont(font);
       fill(0);
       text("Score: " + gameA.eaten, width/2 , height/2);
@@ -1637,7 +1655,7 @@ void draw()
       again.sizeY = height/16; 
       again.textSize = width/30;
       again.render();
-      if(again.presd())
+      if(again.presd() || keyz[16])
       {
         gameA.sizeX = width;
         gameA.sizeY = height;
@@ -1667,10 +1685,10 @@ void draw()
       rect( width/2-width/4,height/2-height/6,width/2, height/3);
       fill(211, 48, 48);
       textAlign(CENTER,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/15);
+      font = createFont("ARLRDBD.TTF", width/15);
       textFont(font);
       text("You won", width/2 , height/2 - height/10);
-      font = createFont("Arial Rounded MT Bold", width/30);
+      font = createFont("ARLRDBD.TTF", width/30);
       textFont(font);
       fill(0);
       text("Score: Infinity" , width/2 , height/2);
@@ -1733,7 +1751,7 @@ void draw()
     
     fill(0);
     textAlign(LEFT,CENTER);
-    font = createFont("Arial Rounded MT Bold", width/30);
+    font = createFont("ARLRDBD.TTF", width/30);
     textFont(font);
     text("Player:", width/9 , height/8 - height/120);
     textAlign(RIGHT,CENTER);
@@ -1771,23 +1789,23 @@ void draw()
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/50);
+      font = createFont("ARLRDBD.TTF", width/50);
       textFont(font);
       text("Color:", width/7 - width/15, height/3 + height/9);
       fill(0);
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("R:", width/7 + width/6 - width/6 + width/50, height/3 + height/9 - height/15 + height/400);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("G:", width/7 + width/6 - width/6 + width/50, height/3 + height/9 + height/400);
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("B:", width/7 + width/6 - width/6 + width/50, height/3 + height/9 + height/15 + height/400);
       
@@ -1813,7 +1831,7 @@ void draw()
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/50);
+      font = createFont("ARLRDBD.TTF", width/50);
       textFont(font);
       text("Controls:",  width/7 - width/15 , 3*height/4 + height/16);
       fill(0);
@@ -1821,7 +1839,7 @@ void draw()
         stroke(10);
       strokeWeight(height/300);
       textAlign(CENTER,CENTER);
-      font = createFont("Arial Rounded MT Bold", height/50);
+      font = createFont("ARLRDBD.TTF", height/50);
       textFont(font);
     
       fill(199, 201, 175);
@@ -1833,21 +1851,21 @@ void draw()
       fill(199, 201, 175);
       rect( width/2- width/4 +width/28,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Down", width/2 + height/30- width/4 +width/28,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 - height/15 - height/45- width/4 +width/28,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Left", width/2 - height/15 - height/45 + height/30- width/4 +width/28,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 + height/15 + height/45- width/4 +width/28,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Right", width/2 + height/15 + height/45 + height/30- width/4 +width/28,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
@@ -1864,23 +1882,23 @@ void draw()
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/50);
+      font = createFont("ARLRDBD.TTF", width/50);
       textFont(font);
       text("Color:", width/7 - width/15+  width/2-3*width/30 + width/15, height/3 + height/9);
       fill(0);
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("R:", width/7 + width/6 - width/6 + width/50+  width/2-3*width/30 + width/15, height/3 + height/9 - height/15 + height/400);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("G:", width/7 + width/6 - width/6 + width/50+  width/2-3*width/30 + width/15, height/3 + height/9 + height/400);
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("B:", width/7 + width/6 - width/6 + width/50+  width/2-3*width/30 + width/15, height/3 + height/9 + height/15 + height/400);
       
@@ -1906,7 +1924,7 @@ void draw()
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/50);
+      font = createFont("ARLRDBD.TTF", width/50);
       textFont(font);
       text("Controls:",  width/7 - width/15 +  width/2-3*width/30 + width/15, 3*height/4 + height/16);
       fill(0);
@@ -1914,7 +1932,7 @@ void draw()
        stroke(10);
       strokeWeight(height/300);
       textAlign(CENTER,CENTER);
-      font = createFont("Arial Rounded MT Bold", height/35);
+      font = createFont("ARLRDBD.TTF", height/35);
       textFont(font);
     
       fill(199, 201, 175);
@@ -1926,21 +1944,21 @@ void draw()
       fill(199, 201, 175);
       rect( width/2- width/4 +width/28+  width/2-3*width/30 + width/15,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/35);
+      font = createFont("ARLRDBD.TTF", height/35);
       textFont(font);
       text("S", width/2 + height/30- width/4 +width/28+  width/2-3*width/30 + width/15,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 - height/15 - height/45- width/4 +width/28+  width/2-3*width/30 + width/15,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/35);
+      font = createFont("ARLRDBD.TTF", height/35);
       textFont(font);
       text("A", width/2 - height/15 - height/45 + height/30- width/4 +width/28+  width/2-3*width/30 + width/15,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 + height/15 + height/45- width/4 +width/28+  width/2-3*width/30 + width/15,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/35);
+      font = createFont("ARLRDBD.TTF", height/35);
       textFont(font);
       text("D", width/2 + height/15 + height/45 + height/30- width/4 +width/28+  width/2-3*width/30 + width/15,3*height/4 - height/20 + height/15 + height/45 + height/30);
     }
@@ -1957,23 +1975,23 @@ void draw()
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("Color:", width/7 - width/15, height/3 + height/9);
       fill(0);
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("R:", 2*width/18 + width/6 - width/6 + width/50, height/3 + height/9 - height/15 + height/400);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("G:", 2*width/18 + width/6 - width/6 + width/50, height/3 + height/9 + height/400);
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("B:", 2*width/18 + width/6 - width/6 + width/50, height/3 + height/9 + height/15 + height/400);
       
@@ -1999,7 +2017,7 @@ void draw()
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("Controls:",  width/7 - width/15 , height/2 + height/8);
       fill(0);
@@ -2007,7 +2025,7 @@ void draw()
       stroke(10);
       strokeWeight(height/300);
       textAlign(CENTER,CENTER);
-      font = createFont("Arial Rounded MT Bold", height/50);
+      font = createFont("ARLRDBD.TTF", height/50);
       textFont(font);
     
       fill(199, 201, 175);
@@ -2019,21 +2037,21 @@ void draw()
       fill(199, 201, 175);
       rect( width/2- width/4 +width/28- width/9,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Down", width/2 + height/30- width/4 +width/28- width/9,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 - height/15 - height/45- width/4 +width/28 - width/9,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Left", width/2 - height/15 - height/45 + height/30- width/4 +width/28 - width/9,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 + height/15 + height/45- width/4 +width/28- width/9,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Right", width/2 + height/15 + height/45 + height/30- width/4 +width/28- width/9,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
@@ -2049,23 +2067,23 @@ void draw()
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("Color:", width/7 - width/15+ 2*width/6-3*width/90, height/3 + height/9);
       fill(0);
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/65);
+      font = createFont("ARLRDBD.TTF", width/65);
       textFont(font);
       text("R:", 2*width/18 + width/6 - width/6 + width/50+ 2*width/6-3*width/90, height/3 + height/9 - height/15 + height/400);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/65);
+      font = createFont("ARLRDBD.TTF", width/65);
       textFont(font);
       text("G:", 2*width/18 + width/6 - width/6 + width/50+ 2*width/6-3*width/90, height/3 + height/9 + height/400);
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/65);
+      font = createFont("ARLRDBD.TTF", width/65);
       textFont(font);
       text("B:", 2*width/18 + width/6 - width/6 + width/50+ 2*width/6-3*width/90, height/3 + height/9 + height/15 + height/400);
       
@@ -2092,7 +2110,7 @@ void draw()
       
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("Controls:",  width/7 - width/15 + 2*width/6-3*width/90, height/2 + height/8);
       fill(0);
@@ -2100,7 +2118,7 @@ void draw()
       stroke(10);
       strokeWeight(height/300);
       textAlign(CENTER,CENTER);
-      font = createFont("Arial Rounded MT Bold", height/35);
+      font = createFont("ARLRDBD.TTF", height/35);
       textFont(font);
     
       fill(199, 201, 175);
@@ -2112,21 +2130,21 @@ void draw()
       fill(199, 201, 175);
       rect( width/2- width/4 +width/28- width/9+ 2*width/6-3*width/90,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/35);
+      font = createFont("ARLRDBD.TTF", height/35);
       textFont(font);
       text("S", width/2 + height/30- width/4 +width/28- width/9+ 2*width/6-3*width/90,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 - height/15 - height/45- width/4 +width/28 - width/9+ 2*width/6-3*width/90,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/35);
+      font = createFont("ARLRDBD.TTF", height/35);
       textFont(font);
       text("A", width/2 - height/15 - height/45 + height/30- width/4 +width/28 - width/9+ 2*width/6-3*width/90,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 + height/15 + height/45- width/4 +width/28- width/9+ 2*width/6-3*width/90,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/35);
+      font = createFont("ARLRDBD.TTF", height/35);
       textFont(font);
       text("D", width/2 + height/15 + height/45 + height/30- width/4 +width/28- width/9+ 2*width/6-3*width/90,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
@@ -2145,23 +2163,23 @@ void draw()
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("Color:", width/7 - width/15+ 2*width/6-3*width/90+ 2*width/6-3*width/90, height/3 + height/9);
       fill(0);
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("R:", 2*width/18 + width/6 - width/6 + width/50+ 2*width/6-3*width/90+ 2*width/6-3*width/90, height/3 + height/9 - height/15 + height/400);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("G:", 2*width/18 + width/6 - width/6 + width/50+ 2*width/6-3*width/90+ 2*width/6-3*width/90, height/3 + height/9 + height/400);
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("B:", 2*width/18 + width/6 - width/6 + width/50+ 2*width/6-3*width/90+ 2*width/6-3*width/90, height/3 + height/9 + height/15 + height/400);
       
@@ -2188,7 +2206,7 @@ void draw()
       
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("Controls:",  width/7 - width/15 + 2*width/6-3*width/90+ 2*width/6-3*width/90, height/2 + height/8);
       fill(0);
@@ -2196,7 +2214,7 @@ void draw()
       stroke(10);
       strokeWeight(height/300);
       textAlign(CENTER,CENTER);
-      font = createFont("Arial Rounded MT Bold", height/35);
+      font = createFont("ARLRDBD.TTF", height/35);
       textFont(font);
     
       fill(199, 201, 175);
@@ -2208,21 +2226,21 @@ void draw()
       fill(199, 201, 175);
       rect( width/2- width/4 +width/28- width/9+ 2*width/6-3*width/90+ 2*width/6-3*width/90,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/35);
+      font = createFont("ARLRDBD.TTF", height/35);
       textFont(font);
       text("5", width/2 + height/30- width/4 +width/28- width/9+ 2*width/6-3*width/90+ 2*width/6-3*width/90,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 - height/15 - height/45- width/4 +width/28 - width/9+ 2*width/6-3*width/90+ 2*width/6-3*width/90,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/35);
+      font = createFont("ARLRDBD.TTF", height/35);
       textFont(font);
       text("4", width/2 - height/15 - height/45 + height/30- width/4 +width/28 - width/9+ 2*width/6-3*width/90+ 2*width/6-3*width/90,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 + height/15 + height/45- width/4 +width/28- width/9+ 2*width/6-3*width/90+ 2*width/6-3*width/90,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/35);
+      font = createFont("ARLRDBD.TTF", height/35);
       textFont(font);
       text("6", width/2 + height/15 + height/45 + height/30- width/4 +width/28- width/9+ 2*width/6-3*width/90+ 2*width/6-3*width/90,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
@@ -2244,23 +2262,23 @@ void draw()
     
       fill(0);
       textAlign(LEFT,TOP);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("Color:", width/7 - width/15, height/3 + height/100);
       fill(0);
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("R:", width/7 - width/15, height/3 + height/9 - height/15 + height/50);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("G:",width/7 - width/15, height/3 + height/9 + height/50);
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("B:", width/7 - width/15, height/3 + height/9 + height/15 + height/50);
       
@@ -2286,7 +2304,7 @@ void draw()
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("Controls:",  width/7 - width/15 , height/2 + height/8);
       fill(0);
@@ -2294,7 +2312,7 @@ void draw()
         stroke(10);
       strokeWeight(height/300);
       textAlign(CENTER,CENTER);
-      font = createFont("Arial Rounded MT Bold", height/50);
+      font = createFont("ARLRDBD.TTF", height/50);
       textFont(font);
     
       fill(199, 201, 175);
@@ -2306,21 +2324,21 @@ void draw()
       fill(199, 201, 175);
       rect( width/2- width/4 +width/28- width/7,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Down", width/2 + height/30- width/4 +width/28- width/7,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 - height/15 - height/45- width/4 +width/28- width/7,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Left", width/2 - height/15 - height/45 + height/30- width/4 +width/28- width/7,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 + height/15 + height/45- width/4 +width/28- width/7,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/55);
+      font = createFont("ARLRDBD.TTF", height/55);
       textFont(font);
       text("Right", width/2 + height/15 + height/45 + height/30- width/4 +width/28- width/7,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
@@ -2337,23 +2355,23 @@ void draw()
     
       fill(0);
       textAlign(LEFT,TOP);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("Color:", width/7 - width/15 + width/4-3*width/120, height/3 + height/100);
       fill(0);
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("R:", width/7 - width/15 + width/4-3*width/120, height/3 + height/9 - height/15 + height/50);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("G:",width/7 - width/15 + width/4-3*width/120, height/3 + height/9 + height/50);
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("B:", width/7 - width/15 + width/4-3*width/120, height/3 + height/9 + height/15 + height/50);
       
@@ -2379,7 +2397,7 @@ void draw()
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("Controls:",  width/7 - width/15  + width/4-3*width/120, height/2 + height/8);
       fill(0);
@@ -2387,7 +2405,7 @@ void draw()
         stroke(10);
       strokeWeight(height/300);
       textAlign(CENTER,CENTER);
-      font = createFont("Arial Rounded MT Bold", height/35);
+      font = createFont("ARLRDBD.TTF", height/35);
       textFont(font);
     
       fill(199, 201, 175);
@@ -2399,21 +2417,21 @@ void draw()
       fill(199, 201, 175);
       rect( width/2- width/4 +width/28- width/7  + width/4-3*width/120,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/35);
+      font = createFont("ARLRDBD.TTF", height/35);
       textFont(font);
       text("S", width/2 + height/30- width/4 +width/28- width/7 + width/4-3*width/120,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 - height/15 - height/45- width/4 +width/28- width/7 + width/4-3*width/120,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/35);
+      font = createFont("ARLRDBD.TTF", height/35);
       textFont(font);
       text("A", width/2 - height/15 - height/45 + height/30- width/4 +width/28- width/7 + width/4-3*width/120,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 + height/15 + height/45- width/4 +width/28- width/7 + width/4-3*width/120,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/35);
+      font = createFont("ARLRDBD.TTF", height/35);
       textFont(font);
       text("D", width/2 + height/15 + height/45 + height/30- width/4 +width/28- width/7 + width/4-3*width/120,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
@@ -2430,23 +2448,23 @@ void draw()
     
       fill(0);
       textAlign(LEFT,TOP);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("Color:", width/7 - width/15+ width/2-3*width/60, height/3 + height/100);
       fill(0);
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("R:", width/7 - width/15+ width/2-3*width/60, height/3 + height/9 - height/15 + height/50);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("G:",width/7 - width/15+ width/2-3*width/60, height/3 + height/9 + height/50);
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("B:", width/7 - width/15+ width/2-3*width/60, height/3 + height/9 + height/15 + height/50);
       
@@ -2472,7 +2490,7 @@ void draw()
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("Controls:",  width/7 - width/15+ width/2-3*width/60, height/2 + height/8);
       fill(0);
@@ -2480,7 +2498,7 @@ void draw()
         stroke(10);
       strokeWeight(height/300);
       textAlign(CENTER,CENTER);
-      font = createFont("Arial Rounded MT Bold", height/35);
+      font = createFont("ARLRDBD.TTF", height/35);
       textFont(font);
     
       fill(199, 201, 175);
@@ -2492,21 +2510,21 @@ void draw()
       fill(199, 201, 175);
       rect( width/2- width/4 +width/28- width/7+ width/2-3*width/60,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/35);
+      font = createFont("ARLRDBD.TTF", height/35);
       textFont(font);
       text("5", width/2 + height/30- width/4 +width/28- width/7+ width/2-3*width/60,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 - height/15 - height/45- width/4 +width/28- width/7+ width/2-3*width/60,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/35);
+      font = createFont("ARLRDBD.TTF", height/35);
       textFont(font);
       text("4", width/2 - height/15 - height/45 + height/30- width/4 +width/28- width/7+ width/2-3*width/60,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 + height/15 + height/45- width/4 +width/28- width/7+ width/2-3*width/60,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/35);
+      font = createFont("ARLRDBD.TTF", height/35);
       textFont(font);
       text("6", width/2 + height/15 + height/45 + height/30- width/4 +width/28- width/7+ width/2-3*width/60,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
@@ -2523,23 +2541,23 @@ void draw()
     
       fill(0);
       textAlign(LEFT,TOP);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("Color:", width/7 - width/15 + width/4-3*width/120+ width/2-3*width/60, height/3 + height/100);
       fill(0);
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("R:", width/7 - width/15 + width/4-3*width/120+ width/2-3*width/60, height/3 + height/9 - height/15 + height/50);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("G:",width/7 - width/15 + width/4-3*width/120+ width/2-3*width/60, height/3 + height/9 + height/50);
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/75);
+      font = createFont("ARLRDBD.TTF", width/75);
       textFont(font);
       text("B:", width/7 - width/15 + width/4-3*width/120+ width/2-3*width/60, height/3 + height/9 + height/15 + height/50);
       
@@ -2565,7 +2583,7 @@ void draw()
     
       fill(0);
       textAlign(LEFT,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/60);
+      font = createFont("ARLRDBD.TTF", width/60);
       textFont(font);
       text("Controls:",  width/7 - width/15  + width/4-3*width/120+ width/2-3*width/60, height/2 + height/8);
       fill(0);
@@ -2573,7 +2591,7 @@ void draw()
         stroke(10);
       strokeWeight(height/300);
       textAlign(CENTER,CENTER);
-      font = createFont("Arial Rounded MT Bold", height/35);
+      font = createFont("ARLRDBD.TTF", height/35);
       textFont(font);
     
       fill(199, 201, 175);
@@ -2585,21 +2603,21 @@ void draw()
       fill(199, 201, 175);
       rect( width/2- width/4 +width/28- width/7  + width/4-3*width/120+ width/2-3*width/60,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/35);
+      font = createFont("ARLRDBD.TTF", height/35);
       textFont(font);
       text("J", width/2 + height/30- width/4 +width/28- width/7 + width/4-3*width/120+ width/2-3*width/60,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 - height/15 - height/45- width/4 +width/28- width/7 + width/4-3*width/120+ width/2-3*width/60,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/35);
+      font = createFont("ARLRDBD.TTF", height/35);
       textFont(font);
       text("H", width/2 - height/15 - height/45 + height/30- width/4 +width/28- width/7 + width/4-3*width/120+ width/2-3*width/60,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
       fill(199, 201, 175);
       rect( width/2 + height/15 + height/45- width/4 +width/28- width/7 + width/4-3*width/120+ width/2-3*width/60,3*height/4 - height/20 + height/15 + height/45 , height/15,height/15);
       fill(0);
-      font = createFont("Arial Rounded MT Bold", height/35);
+      font = createFont("ARLRDBD.TTF", height/35);
       textFont(font);
       text("K", width/2 + height/15 + height/45 + height/30- width/4 +width/28- width/7 + width/4-3*width/120+ width/2-3*width/60,3*height/4 - height/20 + height/15 + height/45 + height/30);
       
@@ -2613,7 +2631,7 @@ void draw()
     start.sizeY = height/16; 
     start.textSize = width/30;
     start.render();
-    if(start.presd())
+    if(start.presd() || keyz[16])
     {
      writeOption = createWriter("config.rcn"); 
       writeOption.println(appleAmount + "/" + int(powerUp) + "/" + int(wales) + "/" + colore[0][0] + "/" + colore[0][1] + "/" + colore[0][2] + "/" + colore[1][0] + "/" + colore[1][1]+ "/" + colore[1][2] + "/" + colore[2][0] + "/" + colore[2][1] + "/" + colore[2][2] + "/" + colore[3][0] + "/" + colore[3][1] + "/" + colore[3][2] + "/" + backR + "/" + backG + "/" + backB + "/" + startLengh + "/" + tilesize + "/" + int(fullscreen));
@@ -2663,7 +2681,7 @@ void draw()
       rect( width/2-width/4,height/2-height/6,width/2, height/3);
       fill(0);
       textAlign(CENTER,CENTER);
-      font = createFont("Arial Rounded MT Bold", width/20);
+      font = createFont("ARLRDBD.TTF", width/20);
       textFont(font);
       if(winner != 5)
       {
@@ -2678,7 +2696,7 @@ void draw()
       again.sizeY = height/16; 
       again.textSize = width/30;
       again.render();
-      if(again.presd())
+      if(again.presd() || keyz[16])
       {
         gameM.sizeX = width;
         gameM.sizeY = height;
@@ -2909,6 +2927,10 @@ class game
           timeS *= 1.8;
         }
         if(powerAktiv[p][0] == 5)
+        {
+          timeS /= 2;
+        }
+        if(powerAktiv[p][0] == 1)
         {
           timeS /= 1.8;
         }
@@ -3231,7 +3253,7 @@ class game
         }
         if(headY[i][0] - y < 0)
         {
-          if(wales)
+          if(wales || wallKaos[0] != 0)
           {
             goUp = y;
             if(y == 1)
@@ -3286,7 +3308,7 @@ class game
         }
         if(headY[i][0] + y > size[1])
         {
-          if(wales)
+          if(wales || wallKaos[0] != 0)
           {
             goDown = y;
             if(y == 1)
@@ -3341,7 +3363,7 @@ class game
         }
         if(headX[i][0] - x < 0)
         {
-          if(wales)
+          if(wales || wallKaos[0] != 0)
           {
             goLeft = x;
             if(x == 1)
@@ -3396,7 +3418,7 @@ class game
         }
         if(headX[i][0] + x > size[0])
         {
-          if(wales)
+          if(wales || wallKaos[0] != 0)
           {
             goRigth = x;
             if(x == 1)
@@ -3496,6 +3518,55 @@ class game
               goRigth += 3;
             }
           }
+        }
+      }
+      
+      if(min(dir) > 6 || (dir[0] + dir[1] + dir[2]) > 25)
+      {
+        if(headX[i][0] == power[0])
+        {
+          if(headY[i][0] > power[1])
+          {
+            goUp += 2;
+          }
+          else
+          {
+            goDown += 2;
+          }
+        }
+        if(headY[i][0] == power[1])
+        {
+          if(headX[i][0] > power[0])
+          {
+            goLeft += 2;
+          }
+          else
+          {
+            goRigth += 2;
+          }
+        }
+      }
+      
+      for(int p = 0; p < player + aiPlayer; p++)
+      {
+        switch(angle[i])
+        {
+          case 0:
+            if(headX[i][0]-1 == headX[p][0] && headY[i][0] == headY[p][0])
+              goRigth -= 5;
+          break;
+          case 90:
+             if(headX[i][0] == headX[p][0] && headY[i][0]+1 == headY[p][0])
+              goUp -= 5;
+          break;
+          case 180:
+             if(headX[i][0]+1 == headX[p][0] && headY[i][0] == headY[p][0])
+              goLeft -= 5;
+          break;
+          case 270:
+             if(headX[i][0] == headX[p][0] && headY[i][0]-1 == headY[p][0])
+              goDown -= 5;
+          break;
         }
       }
       
@@ -3634,9 +3705,9 @@ class game
          noFill();
          stroke(0, 233, 255, 100);
          strokeWeight(2*tilesize);
+         beginShape(POINTS);
          for(int h = 0; h < pLength[p]; h++)
          {
-           beginShape(POINTS);
            if(wales)
            {
              vertex(posX + restX1 + (headX[p][h]*tilesize) + (3*tilesize/2),posY + restY1 + (headY[p][h]*tilesize) + (3*tilesize/2));
@@ -3645,8 +3716,8 @@ class game
            {
              vertex(posX + restX1 + (headX[p][h]*tilesize) + (tilesize/2),posY + restY1 + (headY[p][h]*tilesize) + (tilesize/2));
            }
-           endShape();
          }
+         endShape();
          
         
       }
@@ -3655,9 +3726,9 @@ class game
          noFill();
          stroke(59, 214, 12, 100);
          strokeWeight(2*tilesize);
+         beginShape(POINTS);
          for(int h = 0; h < pLength[p]; h++)
          {
-           beginShape(POINTS);
            if(wales)
            {
              vertex(posX + restX1 + (headX[p][h]*tilesize) + (3*tilesize/2),posY + restY1 + (headY[p][h]*tilesize) + (3*tilesize/2));
@@ -3666,8 +3737,8 @@ class game
            {
              vertex(posX + restX1 + (headX[p][h]*tilesize) + (tilesize/2),posY + restY1 + (headY[p][h]*tilesize) + (tilesize/2));
            }
-           endShape();
          }
+         endShape();
         
       }
       if(powerAktiv[p][0] == 6 && playerLeft[p])
@@ -3675,9 +3746,9 @@ class game
          noFill();
          stroke(43, 145, 13, 100);
          strokeWeight(2*tilesize);
+         beginShape(POINTS);
          for(int h = 0; h < pLength[p]; h++)
          {
-           beginShape(POINTS);
            if(wales)
            {
               vertex(posX + restX1 + (headX[p][h]*tilesize) + (3*tilesize/2),posY + restY1 + (headY[p][h]*tilesize) + (3*tilesize/2));
@@ -3686,8 +3757,28 @@ class game
            {
              vertex(posX + restX1 + (headX[p][h]*tilesize) + (tilesize/2),posY + restY1 + (headY[p][h]*tilesize) + (tilesize/2));
            }
-           endShape();
          }
+        endShape();
+        
+      }
+      if(powerAktiv[p][0] == 5 && playerLeft[p])
+      {
+         noFill();
+         stroke(255, 123, 0, 100);
+         strokeWeight(2*tilesize);
+         beginShape(POINTS);
+         for(int h = 0; h < pLength[p]; h++)
+         {
+           if(wales)
+           {
+              vertex(posX + restX1 + (headX[p][h]*tilesize) + (3*tilesize/2),posY + restY1 + (headY[p][h]*tilesize) + (3*tilesize/2));
+           }
+           else
+           {
+             vertex(posX + restX1 + (headX[p][h]*tilesize) + (tilesize/2),posY + restY1 + (headY[p][h]*tilesize) + (tilesize/2));
+           }
+         }
+        endShape();
         
       }
       if(!playerLeft[p] && millis() - deadPoint[p][2] < 600)
@@ -3980,6 +4071,8 @@ class checkBox
   int colore[][] = new int[3][3];
   boolean pressd;
   boolean checked = false;
+  int srokeSize;
+  boolean changeS = true;
   
   checkBox(int posXi,int  posYi,int sizeXi,int sizeYi, boolean checkedi)
   {
@@ -4005,9 +4098,11 @@ class checkBox
   
   void render()
   {
+    if(changeS)
+     srokeSize = sizeY/10;
      stroke(colore[1][0],colore[1][1],colore[1][2]);
      fill(colore[0][0],colore[0][1],colore[0][2]);
-     strokeWeight(sizeY/10);
+     strokeWeight(srokeSize);
      strokeJoin(BEVEL);
      rect(posX, posY, sizeX, sizeY);
      noFill();
@@ -4056,6 +4151,8 @@ class button
   int colore[][] = new int[3][3];
   String text;
   boolean pressd;
+  int srokeSize;
+  boolean changeS = true;
   
   button(int posXi,int  posYi,int sizeXi,int sizeYi,int textSizei,String texti)
   {
@@ -4092,12 +4189,14 @@ class button
       stroke(colore[1][0]*0.8f,colore[1][1]*0.8f,colore[1][2]*0.8f);
       fill(colore[0][0]*0.8f,colore[0][1]*0.8f,colore[0][2]*0.8f);
     }
-      strokeWeight(sizeY/10);
+    if(changeS)
+     srokeSize = sizeY/10;
+      strokeWeight(srokeSize);
       strokeJoin(BEVEL);
       rect(posX, posY, sizeX, sizeY);
       fill(colore[2][0],colore[2][1],colore[2][2]);
       textAlign(CENTER, CENTER);
-      PFont myFont = createFont("Arial Rounded MT Bold", textSize);
+      PFont myfont = createFont("ARLRDBD.TTF", textSize);
       textFont(myFont);
       text(text, posX + (sizeX/2), posY + (sizeY/2) - (sizeY/9));
     
@@ -4190,7 +4289,7 @@ class slider
         if(lastPres)
         {
           float valueB = value;
-          valueB += moveMulti*(mouseX - lastX)*(maxVal-minVal)/size;
+          valueB = value + float(moveMulti)*float(mouseX - lastX)*float(maxVal-minVal)/float(size);
           
           if(valueB < minVal)
           {
@@ -4221,7 +4320,7 @@ class slider
   
 }
 
-boolean keyz[] = new boolean[16];
+boolean keyz[] = new boolean[17];
 
 void keyPressed() {
   if (key == 'W' || key == 'w')  {keyz[0] = true; keyz[1] = false; keyz[2] = false; keyz[3] = false;}
@@ -4240,10 +4339,11 @@ void keyPressed() {
   if (keyCode == DOWN)  {keyz[12] = false; keyz[13] = true; keyz[14] = false; keyz[15] = false;}
   if (keyCode == LEFT)  {keyz[12] = false; keyz[13] = false; keyz[14] = true; keyz[15] = false;}
   if (keyCode == RIGHT)  {keyz[12] = false; keyz[13] = false; keyz[14] = false; keyz[15] = true;}
+  if (key == ENTER || key == RETURN) {keyz[16] = true;}
 }
 
 void keyReleased() {
-  if (key == 'W' || key == 'w')  {keyz[0] = false; keyz[1] = false; keyz[2] = false; keyz[3] = false;}
+  /*if (key == 'W' || key == 'w')  {keyz[0] = false; keyz[1] = false; keyz[2] = false; keyz[3] = false;}
   if (key == 'S' || key == 's')  {keyz[0] = false; keyz[1] = false; keyz[2] = false; keyz[3] = false;}
   if (key == 'A' || key == 'a')  {keyz[0] = false; keyz[1] = false; keyz[2] = false; keyz[3] = false;}
   if (key == 'D' || key == 'd')  {keyz[0] = false; keyz[1] = false; keyz[2] = false; keyz[3] = false;}
@@ -4258,5 +4358,6 @@ void keyReleased() {
   if (keyCode == UP)  {keyz[12] = false; keyz[13] = false; keyz[14] = false; keyz[15] = false;}
   if (keyCode == DOWN)  {keyz[12] = false; keyz[13] = false; keyz[14] = false; keyz[15] = false;}
   if (keyCode == LEFT)  {keyz[12] = false; keyz[13] = false; keyz[14] = false; keyz[15] = false;}
-  if (keyCode == RIGHT)  {keyz[12] = false; keyz[13] = false; keyz[14] = false; keyz[15] = false;}
+  if (keyCode == RIGHT)  {keyz[12] = false; keyz[13] = false; keyz[14] = false; keyz[15] = false;}*/
+  if (key == ENTER || key == RETURN) {keyz[16] = false;}
 }
