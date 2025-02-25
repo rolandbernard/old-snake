@@ -59,7 +59,7 @@ void setup()
 {
   //fullScreen();
   size(800,600);
-  frameRate(480);
+  frameRate(1000);
   surface.setResizable(true);
   
   readOption = createReader("config.rcn");   
